@@ -2,7 +2,26 @@ const aws = require('aws-sdk');
 const nodemailer = require('nodemailer');
 
 exports.handler = async (event) => {
-  const { name, message, fromEmail } = event;
+  
+    const responseHeaders = {
+        'Access-Control-Allow-Origin': '*', 
+        'Access-Control-Allow-Methods': 'POST',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Credentials': 'true', 
+    };
+
+    if (event.httpMethod === 'OPTIONS') {
+        return {
+            statusCode: 204,
+            headers: responseHeaders,
+        };
+    }
+  
+    const requestBody = JSON.parse(event.body); // Parse the JSON data from the request body.
+        
+        const fromEmail = requestBody.fromEmail;
+        const name = requestBody.name;
+        const message = requestBody.message;
 
   const sendTo = 'micklito.dev@gmail.com';
   const subject = 'New contact via DynamicPortfolio';
