@@ -11,13 +11,14 @@ exports.handler = async (event) => {
     };
 
     if (event.httpMethod === 'OPTIONS') {
+      
         return {
             statusCode: 204,
             headers: responseHeaders,
         };
     }
   
-    const requestBody = JSON.parse(event.body); // Parse the JSON data from the request body.
+    const requestBody = typeof event.body === "string" ? JSON.parse(event) : event
         
         const fromEmail = requestBody.fromEmail;
         const name = requestBody.name;
